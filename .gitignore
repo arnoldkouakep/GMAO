@@ -1,0 +1,29 @@
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnements virtuels
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Fichiers de configuration ou sensibles
+*.env
+*.DS_Store
+
+# Dépendances
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Fichiers générés par des outils de build
+build/
+dist/
+*.egg-info/
+
+# Fichiers spécifiques à un IDE
+.vscode/
+.idea/
+*.swp
