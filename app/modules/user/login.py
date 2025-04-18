@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from app.modules.user.connexion import authenticate_user
 from PIL import (
     Image,
     ImageTk,
@@ -7,10 +8,11 @@ from PIL import (
 
 
 class LoginScreen:
-    def __init__(self, root, on_login_success):
+    def __init__(self, root, connection, on_login_success):
         self.root = root
         self.root.title("GMAO - Connexion")
         self.root.geometry("600x400")
+        self.connection = connection
         self.on_login_success = on_login_success
 
         self.login_frame = tk.Frame(self.root)
@@ -44,9 +46,7 @@ class LoginScreen:
         self.password_entry = tk.Entry(right_frame, show="*")
         self.password_entry.pack()
 
-        login_button = tk.Button(
-            right_frame, text="Connexion", command=self.check_login
-        )
+        login_button = tk.Button(right_frame, text="Connexion", command=self.login)
         login_button.pack(pady=10)
 
         # Footer container
@@ -63,11 +63,12 @@ class LoginScreen:
         )
         footer_label.pack(fill=tk.X, pady=5)
 
-    def check_login(self):
+    def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
 
-        if username == "admin" and password == "password":
+        user = authenticate_user(self.connection, username, password)
+        if user:
             self.login_frame.destroy()
             self.on_login_success()
         else:

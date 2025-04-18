@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-from login import LoginScreen
+from app.modules.user.login import LoginScreen
+from data.database import connect_db, initialize_db
 
 
 class MainApp:
@@ -39,6 +40,9 @@ class MainApp:
 
 
 if __name__ == "__main__":
+    connection = connect_db("data/database.db")
+    initialize_db(connection)
+
     root = tk.Tk()
-    LoginScreen(root, lambda: MainApp(root))
+    LoginScreen(root, connection, lambda: MainApp(root))
     root.mainloop()
