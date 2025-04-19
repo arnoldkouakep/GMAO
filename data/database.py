@@ -3,17 +3,20 @@ import sqlite3
 
 def connect_db(db_file):
     connection = sqlite3.connect(db_file)
+    connection.row_factory = sqlite3.Row  # Permet d'accéder aux colonnes par nom
     return connection
 
 
 def initialize_db(connection):
     with connection:
-        # Création de la table des utilisateurs
+        # Création de la table du personnel (remplace la table users)
         connection.execute(
             """
-            CREATE TABLE IF NOT EXISTS users (
+            CREATE TABLE IF NOT EXISTS personnel (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT NOT NULL UNIQUE,
+                name TEXT NOT NULL,
+                position TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
                 role TEXT NOT NULL
             )
@@ -58,11 +61,22 @@ def initialize_db(connection):
             ('Gestion des configurations', 'user', 0)
             """
         )
-        # Insertion d'un utilisateur par défaut
+        # Insertion d'un personnel par défaut (remplace les utilisateurs par défaut)
         connection.execute(
             """
-            INSERT OR IGNORE INTO users (username, password, role) VALUES
-            ('admin', 'admin123', 'admin'),
-            ('user', 'user123', 'user')
+            INSERT OR IGNORE INTO personnel (name, position, email, password, role) VALUES
+            ('Admin', 'Administrateur', 'admin@example.com', 'admin123', 'admin'),
+            ('User', 'Employé', 'user@example.com', 'user123', 'user')
+            """
+        )
+        # Création de la table des équipes
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS equipes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                shift TEXT NOT NULL,  -- Matin ou Soir
+                day TEXT NOT NULL     -- Jour de la semaine (Lundi à Dimanche)
+            )
             """
         )

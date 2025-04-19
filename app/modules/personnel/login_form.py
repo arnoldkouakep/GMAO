@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from app.modules.user.connexion import authenticate_user
+from app.modules.personnel.connexion import authenticate_user
 from PIL import (
     Image,
     ImageTk,
@@ -38,9 +38,9 @@ class LoginScreen:
         right_frame = tk.Frame(main_container)
         right_frame.pack(side=tk.RIGHT, padx=20, pady=20, expand=True)
 
-        tk.Label(right_frame, text="Nom d'utilisateur:").pack()
-        self.username_entry = tk.Entry(right_frame)
-        self.username_entry.pack()
+        tk.Label(right_frame, text="Email:").pack()
+        self.email_entry = tk.Entry(right_frame)
+        self.email_entry.pack()
 
         tk.Label(right_frame, text="Mot de passe:").pack()
         self.password_entry = tk.Entry(right_frame, show="*")
@@ -53,21 +53,11 @@ class LoginScreen:
         footer_container = tk.Frame(self.root)
         footer_container.pack(side=tk.BOTTOM, fill=tk.X)
 
-        # Ajouter uniquement le texte du footer
-        footer_label = tk.Label(
-            footer_container,
-            text="© 2025 GMAO - Tous droits réservés",
-            font=("Arial", 10),
-            bg="#f1f1f1",  # Couleur de fond du footer
-            fg="black",  # Couleur du texte
-        )
-        footer_label.pack(fill=tk.X, pady=5)
-
     def login(self):
-        username = self.username_entry.get()
+        email = self.email_entry.get()
         password = self.password_entry.get()
 
-        user = authenticate_user(self.connection, username, password)
+        user = authenticate_user(self.connection, email, password)
         if user:
             self.login_frame.destroy()
             self.on_login_success()
